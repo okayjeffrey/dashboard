@@ -1,0 +1,92 @@
+<script type='text/javascript'>
+$(function() {
+  // These settings override the defaults set in application.coffee. You can do this on a per dashboard basis.
+    Dashing.gridsterLayout('[{"col":3,"row":1,"size_x":1,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1},{"col":6,"row":1,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1}]')
+    Dashing.widget_base_dimensions = [170, 170]
+    Dashing.numColumns = 6
+});
+</script>
+<div class="gridster">
+  <ul>
+    <% (1..8).each do |index| %>
+        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+          <div data-id="korhome-light-<%=index%>" data-view="Korhome"></div>
+        </li>
+    <% end %>
+    <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
+      <div data-id="korhome-control" data-view="Text" data-title="Control example"></div>
+    </li>
+  </ul>
+  <ul>
+  </ul>
+</div>
+
+<script type='text/javascript'>
+$(function() {
+setTimeout(function() {
+var ipAddress = "192.168.86.111"
+var userId = "1e42344837c87b7f15bb21f8362a2f6f"
+
+// Light On -------------------------------------------------
+  $('li .widget-korhome .on').click(function() {
+    var onInput = $(this).parent().parent().parent().parent().parent();
+    var ID = onInput.children('input').val();
+    var lightInfo = "{\"on\":true,\"bri\":254,\"sat\":254,\"hue\":15762}";
+
+    $.ajax({
+        type: "PUT",
+        url: "http://"+ipAddress+"/api/"+userId+"/lights/"+ID+"/state",
+        dataType: "json",
+        success: function(info) { console.log("WORKED", info); },
+        error: function(info) { console.log("NOPE", info); },
+        data: lightInfo
+    });
+  });
+// Light Off -------------------------------------------------
+    $('li .widget-korhome .off').click(function() {
+        var onInput = $(this).parent().parent().parent().parent().parent();
+        var ID = onInput.children('input').val();
+        var lightInfo = "{\"on\":false}";
+
+        $.ajax({
+            type: "PUT",
+            url: "http://"+ipAddress+"/api/"+userId+"/lights/"+ID+"/state",
+            dataType: "json",
+            success: function(info) { console.log("WORKED", info); },
+            error: function(info) { console.log("NOPE", info); },
+            data: lightInfo
+        });
+    });
+// Light Dimmer -------------------------------------------------
+    $('li .widget-korhome .dimmer').click(function() {
+        var onInput = $(this).parent().parent().parent().parent().parent();
+        var ID = onInput.attr("data-id").split("-").pop();
+        var lightInfo = "{\"bri\":30}";
+
+        $.ajax({
+             type: "PUT",
+             url: "http://"+ipAddress+"/api/"+userId+"/lights/"+ID+"/state",
+             dataType: "json",
+             success: function(info) { console.log("WORKED", info); },
+             error: function(info) { console.log("NOPE", info); },
+             data: lightInfo
+        });
+    });
+// Light Brighter -------------------------------------------------
+    $('li .widget-korhome .brighter').click(function() {
+        var onInput = $(this).parent().parent().parent().parent().parent();
+        var ID = onInput.attr("data-id").split("-").pop();
+        var lightInfo = "{\"bri\":254}";
+
+        $.ajax({
+             type: "PUT",
+             url: "http://"+ipAddress+"/api/"+userId+"/lights/"+ID+"/state",
+             dataType: "json",
+             success: function(info) { console.log("WORKED", info); },
+             error: function(info) { console.log("NOPE", info); },
+             data: lightInfo
+        });
+    });
+},5000);
+});
+</script>
