@@ -39,10 +39,7 @@ SCHEDULER.every '10s', :first_in => 0 do |job|
     else
         color = "rgb(255, 0, 0)" #red
     end
-
-    # hue_hash = { id:i, light_name: light["name"], color: color, hue: hue}
-    # puts "korhome-light-#{String(i)}-#{light["state"]["colormode"]}--#{bri}-#{hue_hash.to_json}-#{color}"
-
-    send_event("korhome-light-"+String(i), { hue_id: i, light_name: light["name"], bg_color: color })
+    puts "--- light: #{String(i)} --- hue_id: #{i} --- light_name: #{light["name"]} --- bg_color: #{color} //"
+    send_event("huebutton-light-"+String(i), { hue_id: i, light_name: light["name"], bg_color: color })
   end
 end

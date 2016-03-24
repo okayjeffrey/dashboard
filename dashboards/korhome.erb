@@ -1,20 +1,27 @@
 <script type='text/javascript'>
+// $(document).on('click', '.btn', function() {
+//     console.log("worked");
+//     document.location = $(this).data('href');
+// });
 $(function() {
   // These settings override the defaults set in application.coffee. You can do this on a per dashboard basis.
-    Dashing.gridsterLayout('[{"col":3,"row":1,"size_x":1,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1},{"col":5,"row":1,"size_x":1,"size_y":1},{"col":6,"row":1,"size_x":1,"size_y":1},{"col":2,"row":2,"size_x":1,"size_y":1},{"col":1,"row":2,"size_x":1,"size_y":1},{"col":3,"row":2,"size_x":1,"size_y":1}]')
-    Dashing.widget_base_dimensions = [170, 170]
-    Dashing.numColumns = 6
+  // Dashing.gridsterLayout('[{"col":5,"row":3,"size_x":1,"size_y":1},{"col":3,"row":1,"size_x":1,"size_y":1},{"col":2,"row":1,"size_x":1,"size_y":1},{"col":4,"row":1,"size_x":1,"size_y":1},{"col":1,"row":1,"size_x":1,"size_y":1},{"col":6,"row":1,"size_x":1,"size_y":1}]')
+  //   Dashing.widget_base_dimensions = [500, 500]
+  //   Dashing.numColumns = 6
 });
 </script>
 <div class="gridster">
   <ul>
-    <% (1..8).each do |index| %>
+    <% (1..6).each do |index| %>
         <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
           <div data-id="korhome-light-<%=index%>" data-view="Korhome"></div>
         </li>
     <% end %>
     <li data-row="1" data-col="1" data-sizex="1" data-sizey="1">
-      <div data-id="korhome-control" data-view="Text" data-title="Control example"></div>
+      <div data-id="korhome-control widget-korhome" data-view="Text" data-title="Control example">
+          <h3 data-bind="light_name"></h3>
+          <input type="hidden" data-bind="hue_id"/>
+      </div>
     </li>
   </ul>
   <ul>
@@ -28,10 +35,10 @@ var ipAddress = "192.168.86.111"
 var userId = "1e42344837c87b7f15bb21f8362a2f6f"
 
 // Light On -------------------------------------------------
-  $('li .widget-korhome .on').click(function() {
+  $('li .widget-korhome .on').on('click touchstart', function() {
     var onInput = $(this).parent().parent().parent().parent().parent();
     var ID = onInput.children('input').val();
-    var lightInfo = "{\"on\":true,\"bri\":254,\"sat\":254,\"hue\":15762}";
+    var lightInfo = "{\"on\":true,\"bri\":254,\"sat\":144,\"hue\":14910}";
 
     $.ajax({
         type: "PUT",
@@ -43,7 +50,7 @@ var userId = "1e42344837c87b7f15bb21f8362a2f6f"
     });
   });
 // Light Off -------------------------------------------------
-    $('li .widget-korhome .off').click(function() {
+    $('li .widget-korhome .off').on('click touchstart', function() {
         var onInput = $(this).parent().parent().parent().parent().parent();
         var ID = onInput.children('input').val();
         var lightInfo = "{\"on\":false}";
@@ -58,7 +65,7 @@ var userId = "1e42344837c87b7f15bb21f8362a2f6f"
         });
     });
 // Light Dimmer -------------------------------------------------
-    $('li .widget-korhome .dimmer').click(function() {
+    $('li .widget-korhome .dimmer').on('click touchstart',function() {
         var onInput = $(this).parent().parent().parent().parent().parent();
         var ID = onInput.attr("data-id").split("-").pop();
         var lightInfo = "{\"bri\":30}";
@@ -73,7 +80,7 @@ var userId = "1e42344837c87b7f15bb21f8362a2f6f"
         });
     });
 // Light Brighter -------------------------------------------------
-    $('li .widget-korhome .brighter').click(function() {
+    $('li .widget-korhome .brighter').on('click touchstart',function() {
         var onInput = $(this).parent().parent().parent().parent().parent();
         var ID = onInput.attr("data-id").split("-").pop();
         var lightInfo = "{\"bri\":254}";

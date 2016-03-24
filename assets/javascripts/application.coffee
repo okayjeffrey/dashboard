@@ -12,6 +12,13 @@ Dashing.on 'ready', ->
   Dashing.widget_base_dimensions ||= [300, 360]
   Dashing.numColumns ||= 4
 
+#-- Stop the draggable items on the dashboard
+#-- https://github.com/Shopify/dashing/issues/94
+# draggable:
+#     stop: Dashing.showGridsterInstructions
+#     start: -> Dashing.currentWidgetPositions = Dashing.getWidgetPositions()
+#     items: "nope"
+
   contentWidth = (Dashing.widget_base_dimensions[0] + Dashing.widget_margins[0] * 2) * Dashing.numColumns
 
   Batman.setImmediate ->
