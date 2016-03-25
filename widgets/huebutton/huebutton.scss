@@ -1,70 +1,77 @@
-// ----------------------------------------------------------------------------
-// Sass declarations
-// ----------------------------------------------------------------------------
-$background-color:  rgba(0,0,0,0.1);
+// ------------------------------- Sass declarations
+$black:  #262323;
+$brown: #736767;
+$light-brown: #9C8D8D;
 
-$title-color:       rgba(255, 255, 255, 0.7);
-$moreinfo-color:    rgba(255, 255, 255, 0.7);
+$title-color: rgba(255, 255, 255, 0.7);
+$moreinfo-color: rgba(255, 255, 255, 0.7);
 
-// ----------------------------------------------------------------------------
-// Widget-text styles
-// ----------------------------------------------------------------------------
-.widget-huebutton {
-    transition: background-color 1s ease;
-    //   background-color: $background-color;
-
-  .title {
-    color: $title-color;
-  }
-
-  .more-info {
-    color: $moreinfo-color;
-  }
-
-  .updated-at {
-    color: rgba(255, 255, 255, 0.7);
-  }
-  h3 {
-    font-size: 1.3em;
-    background-color: rgba(255, 105, 114, 0.8);
-    mix-blend-mode: exclusion;
-    color: #121212;
-    display: inline-block;
-    border-radius: 4px;
-    padding: 0.3ex 1ex;
-  }
+// ------------------------------- Widget-text styles
+#container {
+    overflow: hidden;
 }
 
-.btn {
-  &.on {
-    //   background-color: red;
-  }
-  .widget-huebutton &.off{
-    //   background-color: pink !important;
-  }
-  &:hover {
-      opacity: 0.5;
-      cursor: pointer;
-  }
-}
-
-.flex {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-    align-items: center;
-
-    li {
-        list-style: none;
-        width: 100%;
-
-        &[data-sizex="2"]{
-            flex-grow: 2;
-            width: 100%;
-        }
-    }
+.huebutton-container {
+    // padding:1vmin;
 
     .widget {
-        display: block;
+        padding: inherit;
+        width: inherit;
+        // display: inline-block;
+        // width: 100%;
+        // display: block;
+        // vertical-align: middle;
+    }
+
+    h1,h2,h3 {
+        color: $brown;
+        font-weight: 600;
+        text-align: center;
+        letter-spacing: 0.1ex;
+    }
+    h2 {
+        font-size: 1rem;
+    }
+    h3 {
+        font-size: 1rem;
+        font-weight: 400;
+        letter-spacing: 0.2ex;
+    }
+}
+
+.button-group {
+    height:70vh;
+}
+.widget-huebutton, .widget-huemaster {
+    box-sizing: border-box;
+    border-color:$light-brown;
+    margin:2vmin 2vw;
+    padding: 3vmin 4vw !important;
+    display: flex !important;
+    align-items: center;
+    text-transform: uppercase;
+    border-radius: 4px;
+    min-width: 42vw;
+    text-align: center;
+    // min-height: 20vmin;
+
+    &.on {
+        border-color: rgb(255, 255, 148);
+    }
+
+    h1, h2, h3 {
+        width:100%;
+    }
+}
+
+.widget-huemaster {
+    margin: 2vmin 6vw;
+}
+
+a {
+    cursor: pointer;
+
+    &:hover {
+        background-color: rgba($brown, 0.1);
     }
 }

@@ -1,0 +1,82 @@
+<!-- <div class="block" data-id="currently" data-view="Clock"></div> -->
+<section class="huebutton-container">
+    <article>
+        <h3 class="my3">&ndash; 1845 Lights &ndash;</h3>
+    </article>
+    <article>
+        <a class="on border widget-huemaster">
+            <h2>ALL OFF</h2>
+        </a>
+    </article>
+    <article class="button-group flex flex-wrap justify-center content-stretch">
+        <!-- <li data-row="1" data-col="1" data-sizex="2" data-sizey="1"> -->
+        <!-- </li> -->
+        <% (1..6).each do |index| %>
+            <!-- <li data-row="1" data-col="1" data-sizex="1" data-sizey="1"> -->
+              <a class="border" data-id="huebutton-light-<%=index%>" data-view="Huebutton"></a>
+            <!-- </li> -->
+        <% end %>
+    </article>
+</section>
+
+<!-- ******************* BREAK ******************* -->
+
+<script type='text/javascript'>
+$(function() {
+    setTimeout(function() {
+        var ipAddress = "192.168.86.111"
+        var userId = "1e42344837c87b7f15bb21f8362a2f6f"
+        var allLights = userId+"/groups/0/action"
+
+        $('a.widget-huemaster').on('click', function() {
+            if ($(this).hasClass('on')) {
+                var lightInfo = '{"on":false}';
+
+                $(this).removeClass('on').addClass('off');
+                $('a.widget-huebutton').removeClass('on').addClass('off');
+                $(this).children('h2').text("All ON");
+
+            } else if ($(this).hasClass('off')) {
+                var lightInfo = '{"on":true}';
+
+                $(this).removeClass('off').addClass('on');
+                $('a.widget-huebutton').removeClass('off').addClass('on');
+                $(this).children('h2').text("All OFF");
+            }
+
+            $.ajax({
+                type: "PUT",
+                url: "http://"+ipAddress+"/api/"+allLights,
+                dataType: "json",
+                success: function(info) { console.log("WORKED", lightInfo); },
+                error: function(info) { console.log("NOPE", info); },
+                data: lightInfo
+            });
+        });
+// Light toggle -------------------------------------------------
+        $('a.widget-huebutton').on('click', function() {
+              var onInput = $(this);
+              var ID = onInput.children('input').val();
+
+            if ($(this).hasClass('off')) {
+                var lightInfo = '{\"on\":true,\"bri\":254,\"sat\":144,\"hue\":14910}';
+
+                $(this).toggleClass("on off");
+            } else {
+                var lightInfo = '{\"on\":false}';
+
+                $(this).toggleClass("on off");
+            }
+
+            $.ajax({
+                type: "PUT",
+                url: "http://"+ipAddress+"/api/"+userId+"/lights/"+ID+"/state",
+                dataType: "json",
+                success: function(info) { console.log("WORKED", lightInfo); },
+                error: function(info) { console.log("NOPE", info); },
+                data: lightInfo
+            });
+        });
+    },5000);
+});
+</script>

@@ -15,7 +15,7 @@ SCHEDULER.every '10s', :first_in => 0 do |job|
 
   data.each do |i, light|
     hue   = "hsl(0, 0%, 20%)"
-    color = "rgb(0, 128, 0)" #green
+    color = "#9C8D8D"
 
     if light["modelid"] == "LCT001" # AKA Extended color light
         #--- convert from philips hue to hsb to HSL
@@ -25,21 +25,25 @@ SCHEDULER.every '10s', :first_in => 0 do |job|
 
         if light["state"]["on"] == true && light["state"]["reachable"] == true
             color = "hsl("+hue+","+sat+"%,"+bri+"%)"
+            lightsOn = "on"
         else
-            color = "hsl(0, 0%,1%)"
+            # color = "inherit"
+            lightsOn = "off"
         end
     elsif light["modelid"] == "LWB004" # AKA Dimmable light
         bri = String((light["state"]["bri"]*80/255))
 
         if light["state"]["on"] == true && light["state"]["reachable"] == true
             color = "hsl(60, 100%,"+bri+"%)"
+            lightsOn = "on"
         else
-              color = "hsl(0, 0%,1%)"
+            #   color = "inherit"
+            lightsOn = "off"
         end
     else
-        color = "rgb(255, 0, 0)" #red
+        # color = "transparent"
     end
-    puts "--- light: #{String(i)} --- hue_id: #{i} --- light_name: #{light["name"]} --- bg_color: #{color} //"
-    send_event("huebutton-light-"+String(i), { hue_id: i, light_name: light["name"], bg_color: color })
+    # puts "--- light: #{String(i)} --- hue_id: #{i} --- light_name: #{light["name"]} --- bg_color: #{color} //"
+    send_event("huebutton-light-"+String(i), { hue_id: i, light_name: light["name"], bg_color: color, state: lightsOn })
   end
 end
